@@ -7,7 +7,7 @@ const PRODUCTS = [
   { id: 6, name: "Lotus", price: 450000, emoji: "🪷" },
 ];
 
-const MAX_QTY = 99;
+const MAX_QTY = 9999;
 const STORAGE_KEY = "flower-shop-cart";
 
 // cart: { [productId]: quantity }
