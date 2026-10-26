@@ -1,22 +1,22 @@
-# Tiệm Hoa Xinh – Flower Shop
+# Blossom Flower Shop
 
-App bán hoa đơn giản (HTML/CSS/JS thuần, không cần cài đặt).
+A simple flower shop app (plain HTML/CSS/JS, no installation needed).
 
-## Chạy app
+## Run the app
 
-Mở file `index.html` bằng trình duyệt (double-click).
+Open `index.html` in a browser (double-click the file).
 
-## Tính năng: Add to Cart
+## Feature: Add to Cart
 
-| # | Mô tả | Kết quả mong đợi |
-|---|-------|------------------|
-| 1 | Nhập số lượng, bấm **Thêm vào giỏ** | Sản phẩm xuất hiện trong giỏ, badge 🛒 tăng, hiện thông báo |
-| 2 | Thêm cùng sản phẩm nhiều lần | Số lượng cộng dồn, không tạo dòng trùng |
-| 3 | Số lượng ≤ 0 hoặc không phải số nguyên | Không thêm, báo "Số lượng không hợp lệ" |
-| 4 | Tổng số lượng 1 sản phẩm > 99 | Giới hạn ở 99, báo tối đa |
-| 5 | Bấm **+ / −** trong giỏ | Tăng/giảm 1; giảm về 0 thì xóa dòng |
-| 6 | Bấm **✕** | Xóa sản phẩm khỏi giỏ |
-| 7 | Bấm **Xóa giỏ hàng** | Giỏ trống, tổng = 0 ₫ |
-| 8 | Reload trang | Giỏ hàng vẫn được giữ (localStorage) |
+| # | Scenario | Expected result |
+|---|----------|-----------------|
+| 1 | Enter a quantity and click **Add to Cart** | Product appears in the cart, 🛒 badge increases, a toast message is shown |
+| 2 | Add the same product multiple times | Quantity accumulates, no duplicate row is created |
+| 3 | Quantity ≤ 0 or not a whole number | Nothing is added, "Invalid quantity" is shown |
+| 4 | Total quantity of one product exceeds 99 | Capped at 99, a maximum warning is shown |
+| 5 | Click **+ / −** in the cart | Quantity increases/decreases by 1; reaching 0 removes the row |
+| 6 | Click **✕** | Product is removed from the cart |
+| 7 | Click **Clear cart** | Cart is empty, total = 0 VND |
+| 8 | Reload the page | Cart contents are kept (localStorage) |
 
-Các phần tử có `data-testid` để QA viết test tự động (vd: `add-to-cart-1`, `cart-count`, `cart-total`).
+Elements have `data-testid` attributes for automated tests (e.g. `add-to-cart-1`, `cart-count`, `cart-total`).

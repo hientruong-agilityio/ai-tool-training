@@ -1,10 +1,10 @@
 const PRODUCTS = [
-  { id: 1, name: "Hoa Hồng Đỏ", price: 250000, emoji: "🌹" },
-  { id: 2, name: "Hoa Hướng Dương", price: 180000, emoji: "🌻" },
-  { id: 3, name: "Hoa Tulip", price: 300000, emoji: "🌷" },
-  { id: 4, name: "Hoa Anh Đào", price: 350000, emoji: "🌸" },
-  { id: 5, name: "Hoa Cúc Trắng", price: 120000, emoji: "🌼" },
-  { id: 6, name: "Hoa Lan", price: 450000, emoji: "🪷" },
+  { id: 1, name: "Red Rose", price: 250000, emoji: "🌹" },
+  { id: 2, name: "Sunflower", price: 180000, emoji: "🌻" },
+  { id: 3, name: "Tulip", price: 300000, emoji: "🌷" },
+  { id: 4, name: "Cherry Blossom", price: 350000, emoji: "🌸" },
+  { id: 5, name: "White Daisy", price: 120000, emoji: "🌼" },
+  { id: 6, name: "Lotus", price: 450000, emoji: "🪷" },
 ];
 
 const MAX_QTY = 99;
@@ -30,7 +30,7 @@ function saveCart() {
 }
 
 function formatPrice(value) {
-  return value.toLocaleString("vi-VN") + " ₫";
+  return value.toLocaleString("en-US") + " VND";
 }
 
 function findProduct(id) {
@@ -39,7 +39,7 @@ function findProduct(id) {
 
 function addToCart(productId, qty) {
   if (!Number.isInteger(qty) || qty < 1) {
-    showToast("Số lượng không hợp lệ");
+    showToast("Invalid quantity");
     return;
   }
   const current = cart[productId] || 0;
@@ -49,9 +49,9 @@ function addToCart(productId, qty) {
   renderCart();
   const product = findProduct(productId);
   if (next === MAX_QTY && current + qty > MAX_QTY) {
-    showToast(`Tối đa ${MAX_QTY} sản phẩm cho ${product.name}`);
+    showToast(`Maximum ${MAX_QTY} items for ${product.name}`);
   } else {
-    showToast(`Đã thêm ${qty} ${product.name} vào giỏ`);
+    showToast(`Added ${qty} × ${product.name} to cart`);
   }
 }
 
@@ -69,7 +69,7 @@ function clearCart() {
   cart = {};
   saveCart();
   renderCart();
-  showToast("Đã xóa giỏ hàng");
+  showToast("Cart cleared");
 }
 
 function renderProducts() {
@@ -81,9 +81,9 @@ function renderProducts() {
         <h3>${p.name}</h3>
         <div class="price">${formatPrice(p.price)}</div>
         <input type="number" class="qty-input" min="1" max="${MAX_QTY}" value="1"
-               id="qty-${p.id}" data-testid="qty-${p.id}" aria-label="Số lượng ${p.name}" />
+               id="qty-${p.id}" data-testid="qty-${p.id}" aria-label="Quantity for ${p.name}" />
         <button class="btn btn-primary" data-add="${p.id}" data-testid="add-to-cart-${p.id}">
-          Thêm vào giỏ
+          Add to Cart
         </button>
       </div>`
   ).join("");
