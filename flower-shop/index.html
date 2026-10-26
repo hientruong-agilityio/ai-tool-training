@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tiệm Hoa Xinh</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="header">
+    <h1>🌸 Tiệm Hoa Xinh</h1>
+    <button id="cart-toggle" class="cart-toggle" data-testid="cart-toggle">
+      🛒 Giỏ hàng (<span id="cart-count" data-testid="cart-count">0</span>)
+    </button>
+  </header>
+
+  <main class="layout">
+    <section>
+      <h2>Sản phẩm</h2>
+      <div id="product-list" class="product-list" data-testid="product-list"></div>
+    </section>
+
+    <aside id="cart" class="cart" data-testid="cart">
+      <h2>Giỏ hàng</h2>
+      <p id="cart-empty" class="cart-empty" data-testid="cart-empty">Giỏ hàng đang trống.</p>
+      <ul id="cart-items" class="cart-items" data-testid="cart-items"></ul>
+      <div class="cart-total">
+        Tổng cộng: <strong id="cart-total" data-testid="cart-total">0 ₫</strong>
+      </div>
+      <button id="clear-cart" class="btn btn-secondary" data-testid="clear-cart">Xóa giỏ hàng</button>
+    </aside>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
