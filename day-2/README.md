@@ -39,6 +39,24 @@ Open `flower-shop/index.html` and use any product:
 | then type `2` | – | Red highlight and error disappear |
 | `2` | ✔ | 2 items added, toast shown |
 
+## Task 2: Blue theme (PR [#6](https://github.com/hientruong-agilityio/ai-tool-training/pull/6))
+
+Change the header, the price text and the buttons from pink to blue.
+
+Branch: `feature/blue-theme` → commit → push → PR #6 → merge into `main`.
+
+| Element | Before | After |
+|---------|--------|-------|
+| Header background | pink `#e75480` | blue `#1e6fd9` |
+| Price text under the flower name | pink `#e75480` | blue `#1e6fd9` |
+| 🛒 Cart button text | pink `#e75480` | blue `#1e6fd9` |
+| Add to Cart button (hover) | pink `#e75480` (`#c93d68`) | blue `#1e6fd9` (`#1557b0`) |
+| Page background | light pink `#fff7f9` | light blue `#f5f9ff` |
+
+Only `flower-shop/style.css` changed. The quantity error message stays red.
+
+**Check:** open `flower-shop/index.html` → header, prices and Add to Cart buttons are blue; hovering a button makes it darker.
+
 ## Lessons learned
 
 - At first a copy of the app was made in `day-2/`. Duplicate code is hard to maintain,
