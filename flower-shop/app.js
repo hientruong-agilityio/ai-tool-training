@@ -7,8 +7,9 @@ const PRODUCTS = [
   { id: 6, name: "Lotus", price: 450000, emoji: "🪷" },
 ];
 
-const MAX_QTY = 99;
+const MAX_QTY = 9999;
 const STORAGE_KEY = "flower-shop-cart";
+const QTY_ERROR = "Quantity must be a whole number of 1 or more.";
 
 // cart: { [productId]: quantity }
 let cart = loadCart();
@@ -37,11 +38,24 @@ function findProduct(id) {
   return PRODUCTS.find((p) => p.id === id);
 }
 
+// Accept only digits (rejects "-1", "0", "1.5", "1e2", empty and pasted junk).
+function parseQty(raw) {
+  const value = String(raw).trim();
+  if (!/^\d+$/.test(value)) return null;
+  const qty = Number(value);
+  return qty >= 1 ? qty : null;
+}
+
+function setQtyError(productId, message) {
+  const input = document.getElementById(`qty-${productId}`);
+  const error = document.getElementById(`qty-error-${productId}`);
+  input.classList.toggle("invalid", Boolean(message));
+  input.setAttribute("aria-invalid", message ? "true" : "false");
+  error.textContent = message || "";
+  error.hidden = !message;
+}
+
 function addToCart(productId, qty) {
-  if (!Number.isInteger(qty) || qty < 1) {
-    showToast("Invalid quantity");
-    return;
-  }
   const current = cart[productId] || 0;
   const next = Math.min(current + qty, MAX_QTY);
   cart[productId] = next;
@@ -80,11 +94,13 @@ function renderProducts() {
         <div class="emoji">${p.emoji}</div>
         <h3>${p.name}</h3>
         <div class="price">${formatPrice(p.price)}</div>
-        <input type="number" class="qty-input" min="1" max="${MAX_QTY}" value="1"
-               id="qty-${p.id}" data-testid="qty-${p.id}" aria-label="Quantity for ${p.name}" />
+        <input type="number" class="qty-input" min="1" max="${MAX_QTY}" step="1" value="1"
+               id="qty-${p.id}" data-testid="qty-${p.id}" aria-label="Quantity for ${p.name}"
+               aria-describedby="qty-error-${p.id}" />
         <button class="btn btn-primary" data-add="${p.id}" data-testid="add-to-cart-${p.id}">
           Add to Cart
         </button>
+        <p class="qty-error" id="qty-error-${p.id}" data-testid="qty-error-${p.id}" role="alert" hidden></p>
       </div>`
   ).join("");
 
@@ -92,8 +108,20 @@ function renderProducts() {
     const btn = e.target.closest("[data-add]");
     if (!btn) return;
     const id = Number(btn.dataset.add);
-    const qty = Number(document.getElementById(`qty-${id}`).value);
+    const qty = parseQty(document.getElementById(`qty-${id}`).value);
+    if (qty === null) {
+      setQtyError(id, QTY_ERROR);
+      return;
+    }
+    setQtyError(id, null);
     addToCart(id, qty);
+  });
+
+  // Clear the error as soon as the user edits the field (typing or pasting).
+  list.addEventListener("input", (e) => {
+    if (e.target.classList.contains("qty-input")) {
+      setQtyError(Number(e.target.id.replace("qty-", "")), null);
+    }
   });
 }
 
