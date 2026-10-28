@@ -1,13 +1,12 @@
 const PRODUCTS = [
-  { id: 1, name: "Red Rose", price: 250000, emoji: "🌹" },
-  { id: 2, name: "Sunflower", price: 180000, emoji: "🌻" },
-  { id: 3, name: "Tulip", price: 300000, emoji: "🌷" },
-  { id: 4, name: "Cherry Blossom", price: 350000, emoji: "🌸" },
-  { id: 5, name: "White Daisy", price: 120000, emoji: "🌼" },
-  { id: 6, name: "Lotus", price: 450000, emoji: "🪷" },
+  { id: 1, name: "Red Rose", price: 250000, emoji: "🌹", stock: 500 },
+  { id: 2, name: "Sunflower", price: 180000, emoji: "🌻", stock: 300 },
+  { id: 3, name: "Yellow Tulip", price: 300000, emoji: "🌷", stock: 2000 },
+  { id: 4, name: "Cherry Blossom", price: 350000, emoji: "🌸", stock: 1000 },
+  { id: 5, name: "White Daisy", price: 120000, emoji: "🌼", stock: 10 },
+  { id: 6, name: "Lotus", price: 450000, emoji: "🪷", stock: 50 },
 ];
 
-const MAX_QTY = 9999;
 const STORAGE_KEY = "flower-shop-cart";
 const QTY_ERROR = "Quantity must be a whole number of 1 or more.";
 
@@ -55,25 +54,30 @@ function setQtyError(productId, message) {
   error.hidden = !message;
 }
 
+// How many more of this product can still go into the cart.
+function availableStock(product) {
+  return Math.max(product.stock - (cart[product.id] || 0), 0);
+}
+
+// Returns an error message, or null when the item was added.
 function addToCart(productId, qty) {
-  const current = cart[productId] || 0;
-  const next = Math.min(current + qty, MAX_QTY);
-  cart[productId] = next;
+  const product = findProduct(productId);
+  const available = availableStock(product);
+  if (qty > available) {
+    return `Only ${available} ${product.name} left in stock.`;
+  }
+  cart[productId] = (cart[productId] || 0) + qty;
   saveCart();
   renderCart();
-  const product = findProduct(productId);
-  if (next === MAX_QTY && current + qty > MAX_QTY) {
-    showToast(`Maximum ${MAX_QTY} items for ${product.name}`);
-  } else {
-    showToast(`Added ${qty} × ${product.name} to cart`);
-  }
+  showToast(`Added ${qty} × ${product.name} to cart`);
+  return null;
 }
 
 function updateQty(productId, qty) {
   if (qty <= 0) {
     delete cart[productId];
   } else {
-    cart[productId] = Math.min(qty, MAX_QTY);
+    cart[productId] = Math.min(qty, findProduct(productId).stock);
   }
   saveCart();
   renderCart();
@@ -94,7 +98,8 @@ function renderProducts() {
         <div class="emoji">${p.emoji}</div>
         <h3>${p.name}</h3>
         <div class="price">${formatPrice(p.price)}</div>
-        <input type="number" class="qty-input" min="1" max="${MAX_QTY}" step="1" value="1"
+        <div class="stock" data-testid="stock-${p.id}">In stock: ${p.stock}</div>
+        <input type="number" class="qty-input" min="1" max="${p.stock}" step="1" value="1"
                id="qty-${p.id}" data-testid="qty-${p.id}" aria-label="Quantity for ${p.name}"
                aria-describedby="qty-error-${p.id}" />
         <button class="btn btn-primary" data-add="${p.id}" data-testid="add-to-cart-${p.id}">
@@ -108,13 +113,12 @@ function renderProducts() {
     const btn = e.target.closest("[data-add]");
     if (!btn) return;
     const id = Number(btn.dataset.add);
-    const qty = parseQty(document.getElementById(`qty-${id}`).value);
-    if (qty === null) {
-      setQtyError(id, QTY_ERROR);
-      return;
-    }
-    setQtyError(id, null);
-    addToCart(id, qty);
+    const input = document.getElementById(`qty-${id}`);
+    const qty = parseQty(input.value);
+    // On failure the error is shown and the entered value is kept.
+    const error = qty === null ? QTY_ERROR : addToCart(id, qty);
+    setQtyError(id, error);
+    if (!error) input.value = "1";
   });
 
   // Clear the error as soon as the user edits the field (typing or pasting).

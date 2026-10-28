@@ -53,7 +53,8 @@ body {
 
 .product .emoji { font-size: 4rem; }
 .product h3 { margin: 8px 0 4px; }
-.product .price { color: #1e6fd9; font-weight: 700; margin-bottom: 12px; }
+.product .price { color: #1e6fd9; font-weight: 700; margin-bottom: 4px; }
+.product .stock { color: #777; font-size: 0.85rem; margin-bottom: 12px; }
 
 .qty-input {
   width: 80px;
