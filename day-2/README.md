@@ -57,6 +57,19 @@ Only `flower-shop/style.css` changed. The quantity error message stays red.
 
 **Check:** open `flower-shop/index.html` → header, prices and Add to Cart buttons are blue; hovering a button makes it darker.
 
+## Task 3: Rename shop to "Hana Flower Shop"
+
+Branch: `feature/rename-hana-flower-shop`.
+
+| File | Change |
+|------|--------|
+| `index.html` | Browser tab title and header: "Blossom Flower Shop" → "Hana Flower Shop" |
+| `README.md` | Title updated |
+
+The product "Cherry Blossom" keeps its name (it is a flower, not the shop name).
+
+**Check:** open `flower-shop/index.html` → header and browser tab show "Hana Flower Shop".
+
 ## Lessons learned
 
 - At first a copy of the app was made in `day-2/`. Duplicate code is hard to maintain,
