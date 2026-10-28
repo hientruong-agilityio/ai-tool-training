@@ -1,4 +1,4 @@
-# Blossom Flower Shop
+# Hana Flower Shop
 
 A simple flower shop app (plain HTML/CSS/JS, no installation needed).
 
