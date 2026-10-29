@@ -101,6 +101,24 @@ What changed in `flower-shop/`:
 | AC3 | White Daisy (stock 10): enter 50 → Add to Cart | Not added, "Only 10 White Daisy left in stock.", field still 50 |
 | AC4 | Yellow Tulip 50, Red Rose 20 → Add on Yellow Tulip | Only tulips added; Yellow Tulip field 1, Red Rose still 20 |
 
+## Task 5: Blank quantity field goes back to 1 (issue [#9](https://github.com/hientruong-agilityio/ai-tool-training/issues/9))
+
+Branch: `fix/9-empty-qty-defaults-to-1`.
+
+Bug: after deleting the value in a quantity field and clicking outside, the field stayed blank.
+
+Fix in `flower-shop/app.js`: when a quantity field loses focus and is blank, it is filled with 1.
+Values that are not blank (e.g. `-1`, `20`) are not changed. `README.md` has a new test scenario 3c.
+
+Side effect: clearing the field and then clicking **Add to Cart** now adds 1
+(the field is refilled before the click), instead of showing the "whole number" error.
+
+| Steps | Expected |
+|-------|----------|
+| Red Rose: delete "1", click outside | Field shows 1 |
+| Red Rose: type -1, click outside | Field still shows -1 |
+| Red Rose: type 20, click outside | Field still shows 20 |
+
 ## Lessons learned
 
 - At first a copy of the app was made in `day-2/`. Duplicate code is hard to maintain,

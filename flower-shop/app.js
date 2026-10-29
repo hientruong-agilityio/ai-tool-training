@@ -127,6 +127,15 @@ function renderProducts() {
       setQtyError(Number(e.target.id.replace("qty-", "")), null);
     }
   });
+
+  // A field left blank goes back to 1. Unparsable input (e.g. "-") is left
+  // as is so Add to Cart still shows the validation error.
+  list.addEventListener("focusout", (e) => {
+    const input = e.target;
+    if (input.classList.contains("qty-input") && input.value === "" && !input.validity.badInput) {
+      input.value = "1";
+    }
+  });
 }
 
 function renderCart() {
