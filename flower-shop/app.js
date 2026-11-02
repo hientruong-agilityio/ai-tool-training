@@ -98,8 +98,8 @@ function renderProducts() {
         <div class="emoji">${p.emoji}</div>
         <h3>${p.name}</h3>
         <div class="price">${formatPrice(p.price)}</div>
-        <div class="stock" data-testid="stock-${p.id}">In stock: ${p.stock}</div>
-        <input type="number" class="qty-input" min="1" max="${p.stock}" step="1" value="1"
+        <div class="stock" id="stock-${p.id}" data-testid="stock-${p.id}">In stock: ${availableStock(p)}</div>
+        <input type="number" class="qty-input" min="1" max="${availableStock(p)}" step="1" value="1"
                id="qty-${p.id}" data-testid="qty-${p.id}" aria-label="Quantity for ${p.name}"
                aria-describedby="qty-error-${p.id}" />
         <button class="btn btn-primary" data-add="${p.id}" data-testid="add-to-cart-${p.id}">
@@ -138,7 +138,17 @@ function renderProducts() {
   });
 }
 
+// Stock shown on each card = stock minus what is already in the cart.
+function renderStock() {
+  PRODUCTS.forEach((p) => {
+    const available = availableStock(p);
+    document.getElementById(`stock-${p.id}`).textContent = `In stock: ${available}`;
+    document.getElementById(`qty-${p.id}`).max = available;
+  });
+}
+
 function renderCart() {
+  renderStock();
   const items = Object.entries(cart)
     .map(([id, qty]) => ({ product: findProduct(Number(id)), qty }))
     .filter((item) => item.product);
