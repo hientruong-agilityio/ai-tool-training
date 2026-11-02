@@ -11,6 +11,7 @@ Open `index.html` in a browser (double-click the file).
 | # | Scenario | Expected result |
 |---|----------|-----------------|
 | 1 | Enter a quantity and click **Add to Cart** | Product appears in the cart, 🛒 badge increases, a toast message is shown, the quantity field resets to 1 |
+| 1b | Red Rose (stock 500): enter 450 and click **Add to Cart** | "In stock" on the card changes to 50; it goes back up when the item is removed from the cart (FL-10) |
 | 2 | Add the same product multiple times | Quantity accumulates, no duplicate row is created |
 | 3 | Quantity is `-1`, `0`, `1.5` or pasted text, then click **Add to Cart** | Nothing is added, the field turns red, "Quantity must be a whole number of 1 or more." is shown below it, the entered value is kept |
 | 3b | After the error, type a valid quantity | Red highlight and error message disappear |
